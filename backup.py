@@ -54,5 +54,5 @@ class Backup:
 			
 		for s in self.sections:
 			#!print(s.data)
-			s.analyze()
-			print("{} {}".format(s.label, s.values))
+			s.analyzeFooter()
+			print("{} {}".format(s.label, s.footerValues))
