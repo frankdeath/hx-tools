@@ -2,6 +2,7 @@
 
 import util
 import footerSection
+import section
 
 class Backup:
 	'''
@@ -23,8 +24,9 @@ class Backup:
 		self.footerSectionSize = 36
 		
 		#
-		self.data=None
-		self.footerSections=[]
+		self.data = None
+		self.footerSections = []
+		self.sections = []
 		
 	def read(self):
 		# Read the file whole file, then close it
@@ -56,3 +58,9 @@ class Backup:
 			#!print(s.data)
 			s.analyzeFooter()
 			print("{} {}".format(s.label, s.footerValues))
+
+			#
+			self.sections.append(section.Section(util.getBytes(self.data, s.sectionOffset, s.compressedSize), s))
+		for s in self.sections:
+			s.decompress()
+			print("{}  {}={}  {}={}".format(s.footerSection.label, s.footerSection.compressedSize, s.rawDataSize, s.footerSection.deflatedSize, s.dataSize))
