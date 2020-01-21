@@ -23,8 +23,7 @@ class Backup:
 		self.sectionSize = 36
 		
 		#
-		self.raw_data=None
-		self.byte_array=None
+		self.data=None
 		self.sections=[]
 		
 	def read(self):
@@ -37,16 +36,13 @@ class Backup:
 		print("filename = {}".format(self.filename))
 		print("filesize = {}".format(self.filesize))
 		
-		# Convert the data to a byte array
-		self.byte_array = bytearray(self.data) 
-
 		# Diagnostic (IR lables only exist if loaded, SL00 always exists, rest depend on use)
 		for label in self.sectionLabels:
-			if label in self.byte_array:
-				print("{} = {}".format(label, label in self.byte_array))
+			if label in self.data:
+				print("{} = {}".format(label, label in self.data))
 
 		# 
-		self.footerOffset = util.getInt(self.byte_array, self.footerOffsetLocation)
+		self.footerOffset = util.getInt(self.data, self.footerOffsetLocation)
 		print("footerOffset = {}".format(self.footerOffset))
 
 		#
@@ -54,7 +50,7 @@ class Backup:
 		
 		#
 		for i in range(int((self.filesize - self.footerOffset)/self.sectionSize)):
-			self.sections.append(section.Section(util.getBytes(self.byte_array, (self.footerOffset + i * self.sectionSize), self.sectionSize)))
+			self.sections.append(section.Section(util.getBytes(self.data, (self.footerOffset + i * self.sectionSize), self.sectionSize)))
 			
 		for s in self.sections:
 			#!print(s.data)
