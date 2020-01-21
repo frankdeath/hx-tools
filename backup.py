@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import util
-import section
+import footerSection
 
 class Backup:
 	'''
@@ -20,11 +20,11 @@ class Backup:
 		#!print(self.irLabels)
 		#!print(self.slLabels)
 		self.sectionLabels = self.fixedLabels + self.irLabels + self.slLabels
-		self.sectionSize = 36
+		self.footerSectionSize = 36
 		
 		#
 		self.data=None
-		self.sections=[]
+		self.footerSections=[]
 		
 	def read(self):
 		# Read the file whole file, then close it
@@ -46,13 +46,13 @@ class Backup:
 		print("footerOffset = {}".format(self.footerOffset))
 
 		#
-		#!print((self.filesize - self.footerOffset)/self.sectionSize)
+		#!print((self.filesize - self.footerOffset)/self.footerSectionSize)
 		
 		#
-		for i in range(int((self.filesize - self.footerOffset)/self.sectionSize)):
-			self.sections.append(section.Section(util.getBytes(self.data, (self.footerOffset + i * self.sectionSize), self.sectionSize)))
+		for i in range(int((self.filesize - self.footerOffset)/self.footerSectionSize)):
+			self.footerSections.append(footerSection.Section(util.getBytes(self.data, (self.footerOffset + i * self.footerSectionSize), self.footerSectionSize)))
 			
-		for s in self.sections:
+		for s in self.footerSections:
 			#!print(s.data)
 			s.analyzeFooter()
 			print("{} {}".format(s.label, s.footerValues))
