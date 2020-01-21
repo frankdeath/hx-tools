@@ -2,7 +2,7 @@
 
 import util
 
-class Section:
+class FooterSection:
 	'''
 	Class the contents of one section of the footer
 	'''

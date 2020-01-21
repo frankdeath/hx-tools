@@ -50,7 +50,7 @@ class Backup:
 		
 		#
 		for i in range(int((self.filesize - self.footerOffset)/self.footerSectionSize)):
-			self.footerSections.append(footerSection.Section(util.getBytes(self.data, (self.footerOffset + i * self.footerSectionSize), self.footerSectionSize)))
+			self.footerSections.append(footerSection.FooterSection(util.getBytes(self.data, (self.footerOffset + i * self.footerSectionSize), self.footerSectionSize)))
 			
 		for s in self.footerSections:
 			#!print(s.data)
