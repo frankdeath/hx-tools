@@ -3,6 +3,7 @@
 import util
 import footerSection
 import section
+import ir
 
 class Backup:
 	'''
@@ -58,7 +59,7 @@ class Backup:
 		for s in self.footerSections:
 			#!print(s.data)
 			s.analyzeFooter()
-			print("{} {}".format(s.label, s.footerValues))
+			#!print("{} {}".format(s.label, s.footerValues))
 
 			#
 			self.sections.append(section.Section(util.getBytes(self.data, s.sectionOffset, s.compressedSize), s))
@@ -68,7 +69,10 @@ class Backup:
 				print("{}  {}!={}".format(s.footerSection.label, s.footerSection.compressedSize, s.rawDataSize))
 			if s.footerSection.deflatedSize != s.dataSize:
 				print("{}  {}!={}".format(s.footerSection.label, s.footerSection.deflatedSize, s.dataSize))
+
+			print("{} {}".format(s.name, s.footerSection.footerValues))
+			# If Section is an IR section
 			if s.name[3] == 73:
-				print()
-				print(s.data)
+				i = ir.ImpulseResponse(s.data)
+				i.analyze()
 			#print(s.name)
