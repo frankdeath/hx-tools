@@ -15,6 +15,7 @@ class Backup:
 		# Constants
 		self.footerOffsetLocation = 0x8
 		self.footerOffset = None
+		self.footerSize = None
 		self.fixedLabels = [b'IDXH', b'CSED', b'MNLS', b'BOLG']
 		self.irLabels = [bytes(x+'I', encoding='ascii') for x in util.littleEndianList(128, 3)]
 		self.slLabels = [bytes(x+'LS', encoding='ascii') for x in util.littleEndianList(8, 2)]
@@ -39,13 +40,13 @@ class Backup:
 		print("filesize = {}".format(self.filesize))
 		
 		# Diagnostic (IR lables only exist if loaded, SL00 always exists, rest depend on use)
-		for label in self.sectionLabels:
-			if label in self.data:
-				print("{} = {}".format(label, label in self.data))
+		# IR section labeling from b'000I' to b'F70I'
 
 		# 
 		self.footerOffset = util.getInt(self.data, self.footerOffsetLocation)
+		self.footerSize = self.filesize - self.footerOffset
 		print("footerOffset = {}".format(self.footerOffset))
+		print("footerSize = {}".format(self.footerSize))
 
 		#
 		#!print((self.filesize - self.footerOffset)/self.footerSectionSize)
@@ -63,4 +64,7 @@ class Backup:
 			self.sections.append(section.Section(util.getBytes(self.data, s.sectionOffset, s.compressedSize), s))
 		for s in self.sections:
 			s.decompress()
-			print("{}  {}={}  {}={}".format(s.footerSection.label, s.footerSection.compressedSize, s.rawDataSize, s.footerSection.deflatedSize, s.dataSize))
+			if s.footerSection.compressedSize != s.rawDataSize:
+				print("{}  {}!={}".format(s.footerSection.label, s.footerSection.compressedSize, s.rawDataSize))
+			if s.footerSection.deflatedSize != s.dataSize:
+				print("{}  {}!={}".format(s.footerSection.label, s.footerSection.deflatedSize, s.dataSize))

@@ -10,6 +10,7 @@ class Section:
 	def __init__(self, data, footerSection):
 		# data from the footer
 		self.footerSection = footerSection
+		self.name = self.footerSection.label
 		self.rawData = data
 		self.rawDataSize = len(data)
 		self.data = None
