@@ -68,3 +68,7 @@ class Backup:
 				print("{}  {}!={}".format(s.footerSection.label, s.footerSection.compressedSize, s.rawDataSize))
 			if s.footerSection.deflatedSize != s.dataSize:
 				print("{}  {}!={}".format(s.footerSection.label, s.footerSection.deflatedSize, s.dataSize))
+			if s.name[3] == 73:
+				print()
+				print(s.data)
+			#print(s.name)
