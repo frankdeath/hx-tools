@@ -30,6 +30,29 @@ class ImpulseResponse:
 		self.inamSize = util.getInt(self.data, self.extraOffset+16)
 		self.name = util.getBytes(self.data, self.extraOffset+20, self.inamSize)
 
+		# riffSize @ 4
+		# dataSize = 8 + riffSize
+		# fmtChunkSize @ 16
+		# dataChunkSize @ 24 + fmtChunkSize
+		# listSize @ 32 + fmtChunkSize + dataChunkSize
+		# inameSize @ 44 + fmtChunkSize + dataChunkSize
+		# name @ 48 + fmtChunkSize + dataChunkSize
+
+		# Sanity Check
+		#!rs = util.getInt(self.data, 4)
+		#!ds = 8 + rs
+		#!print(ds == self.dataSize)
+		fcs =  util.getInt(self.data, 16)
+		dcs =  util.getInt(self.data, 24+fcs)
+		#!ls = util.getInt(self.data, 32+fcs+dcs)
+		ins = util.getInt(self.data, 44+fcs+dcs)
+		nm = util.getBytes(self.data, 48+fcs+dcs, ins)
+		#!lsData = util.getBytes(self.data, 28+fcs+dcs, ls+8)
+		#!print(lsData)
+		#!print(nm == self.name)
+		#!print("\t", nm)
+
+		#!print(self.dataSize)
 		#!print(self.riff)
 		#!print(self.riffSize)
 		#!print(self.wave)
@@ -47,3 +70,4 @@ class ImpulseResponse:
 		#!print(self.inamSize)
 		print("\t", self.name)
 		#!print()
+
