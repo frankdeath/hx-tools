@@ -72,7 +72,7 @@ class Backup:
 
 			print("{} {}".format(s.name, s.footerSection.footerValues))
 			# If Section is an IR section
-			if s.name[3] == 73:
+			if s.name[2:] == b'0I':
 				i = ir.ImpulseResponse(s.data)
 				i.analyze()
 			#print(s.name)
