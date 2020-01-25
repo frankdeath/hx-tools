@@ -18,11 +18,6 @@ class Backup:
 		self.footerOffset = None
 		self.footerSize = None
 		self.fixedLabels = [b'IDXH', b'CSED', b'MNLS', b'BOLG']
-		self.irLabels = [bytes(x+'I', encoding='ascii') for x in util.littleEndianList(128, 3)]
-		self.slLabels = [bytes(x+'LS', encoding='ascii') for x in util.littleEndianList(8, 2)]
-		#!print(self.irLabels)
-		#!print(self.slLabels)
-		self.sectionLabels = self.fixedLabels + self.irLabels + self.slLabels
 		self.footerSectionSize = 36
 		
 		#
