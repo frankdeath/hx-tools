@@ -12,61 +12,48 @@ class ImpulseResponse:
 		self.name = None
 
 	def analyze(self):
-		# 
-		self.riff = util.getBytes(self.data, 0, 4)
-		self.riffSize = util.getInt(self.data, 4)
-		self.wave = util.getBytes(self.data, 8, 4)
-		self.fmtChunk = util.getBytes(self.data, 12, 4)
+		# "RIFF"
+		#!self.riffTag = util.getBytes(self.data, 0, 4)
+		# riffSize = dataSize - 8
+		#!self.riffSize = util.getInt(self.data, 4)
+		# "WAVE"
+		#!self.waveTag = util.getBytes(self.data, 8, 4)
+		# "fmt "
+		#!self.fmtChunk = util.getBytes(self.data, 12, 4)
+		# size of the format section
 		self.fmtChunkSize = util.getInt(self.data, 16)
-		self.dataChunk = util.getBytes(self.data, 20+self.fmtChunkSize, 4)
-		self.dataChunkSize = util.getInt(self.data, 20+self.fmtChunkSize+4)
-		self.headerSize = 20+self.fmtChunkSize+4+4
-		self.extraOffset = self.headerSize + self.dataChunkSize
-		self.extraSize = self.dataSize - self.extraOffset
-		self.list = util.getBytes(self.data, self.extraOffset, 4)
-		self.listSize = util.getInt(self.data, self.extraOffset+4) 
-		self.info = util.getBytes(self.data, self.extraOffset+8, 4)
-		self.inam = util.getBytes(self.data, self.extraOffset+12, 4)
-		self.inamSize = util.getInt(self.data, self.extraOffset+16)
-		self.name = util.getBytes(self.data, self.extraOffset+20, self.inamSize)
+		# "data"
+		#!self.dataChunk = util.getBytes(self.data, 20+self.fmtChunkSize, 4)
+		# size of the data section
+		self.dataChunkSize = util.getInt(self.data, 24+self.fmtChunkSize)
+		# "LIST"
+		#!self.listTag = util.getBytes(self.data, 28+self.fmtChunkSize+self.dataChunkSize, 4)
+		# size of list section (includes iname)
+		#!self.listSize = util.getInt(self.data, 32+self.fmtChunkSize+self.dataChunkSize) 
+		# "INFO"
+		#!self.infoTag = util.getBytes(self.data, 36+self.fmtChunkSize+self.dataChunkSize, 4)
+		# "INAM"
+		#!self.inamTag = util.getBytes(self.data, 40+self.fmtChunkSize+self.dataChunkSize, 4)
+		# size of iname section
+		self.inamSize = util.getInt(self.data, 44+self.fmtChunkSize+self.dataChunkSize)
+		# Name of impulse response
+		self.name = util.getBytes(self.data, 48+self.fmtChunkSize+self.dataChunkSize, self.inamSize)
 
-		# riffSize @ 4
-		# dataSize = 8 + riffSize
-		# fmtChunkSize @ 16
-		# dataChunkSize @ 24 + fmtChunkSize
-		# listSize @ 32 + fmtChunkSize + dataChunkSize
-		# inameSize @ 44 + fmtChunkSize + dataChunkSize
-		# name @ 48 + fmtChunkSize + dataChunkSize
+		self.info()
 
-		# Sanity Check
-		#!rs = util.getInt(self.data, 4)
-		#!ds = 8 + rs
-		#!print(ds == self.dataSize)
-		fcs =  util.getInt(self.data, 16)
-		dcs =  util.getInt(self.data, 24+fcs)
-		#!ls = util.getInt(self.data, 32+fcs+dcs)
-		ins = util.getInt(self.data, 44+fcs+dcs)
-		nm = util.getBytes(self.data, 48+fcs+dcs, ins)
-		#!lsData = util.getBytes(self.data, 28+fcs+dcs, ls+8)
-		#!print(lsData)
-		#!print(nm == self.name)
-		#!print("\t", nm)
-
+	def info(self):
 		#!print(self.dataSize)
-		#!print(self.riff)
+		#!print(self.riffTag)
 		#!print(self.riffSize)
-		#!print(self.wave)
+		#!print(self.waveTag)
 		#!print(self.fmtChunk)
 		#!print(self.fmtChunkSize)
 		#!print(self.dataChunk)
 		#!print(self.dataChunkSize)
-		#!print(self.headerSize)
-		#!print(self.extraOffset)
-		#!print(self.extraSize)
-		#!print(self.list)
+		#1print(self.listTag)
 		#!print(self.listSize)
-		#!print(self.info)
-		#!print(self.inam)
+		#1print(self.infoTag)
+		#!print(self.inamTag)
 		#!print(self.inamSize)
 		print("\t", self.name)
 		#!print()
