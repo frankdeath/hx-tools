@@ -27,6 +27,8 @@ class FooterSection:
 		self.rawData = None
 		self.data = None
 		
+		self.analyzeFooter()
+		
 	def analyzeFooter(self):
 		#
 		self.label = util.getBytes(self.footerData, 0, self.labelSize)

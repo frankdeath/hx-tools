@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 
-import util
 import zlib
+import json
+import pprint
+import util
+import ir
 
 class Section:
 	'''
@@ -15,6 +18,12 @@ class Section:
 		self.rawDataSize = len(data)
 		self.data = None
 		self.dataSize = None
+		self.ir = None
+		self.json = None
+		
+		self.decompress()
+		
+		self.analyze()
 
 	def decompress(self):
 		if self.footerSection.compressed == False:
@@ -25,7 +34,22 @@ class Section:
 			# Decompress the data
 			self.data = zlib.decompress(self.rawData)
 			self.dataSize = len(self.data)
+		
+		# Error check
+		if self.footerSection.compressedSize != self.rawDataSize:
+			print("Error: Section {}: compressed size discrepancy: {}!={}".format(self.footerSection.label, self.footerSection.compressedSize, self.rawDataSize))
+		if self.footerSection.deflatedSize != self.dataSize:
+			print("Error: Section {}: decompressed size discrepancy: {}!={}".format(self.footerSection.label, self.footerSection.deflatedSize, self.dataSize))
 
 	def analyze(self):
-		#
-		pass
+		# If Section is an IR section
+		if self.name[2:] == b'0I':
+			i = ir.ImpulseResponse(self.data, self.name)
+			self.ir = i
+		if self.name == b'BOLG':
+			sdata = self.data.decode('utf-8')
+			jdata = json.loads(sdata)
+			pprint.pprint(jdata)
+		else:
+			pass
+			#print("{} {}".format(self.name, self.data))

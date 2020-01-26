@@ -14,6 +14,8 @@ class ImpulseResponse:
 		self.irSlot = self.sectionNameToIRSlot(sectionName)
 		self.name = None
 		self.nameStr = None
+		
+		self.analyze()
 
 	def sectionNameToIRSlot(self, sectionName):
 		hexStr = sectionName[:2][::-1].decode('utf-8')

@@ -1,11 +1,8 @@
 #!/usr/bin/env python3
 
-import json
-import pprint
 import util
 import footerSection
 import section
-import ir
 
 class Backup:
 	'''
@@ -55,34 +52,21 @@ class Backup:
 		for i in range(int((self.filesize - self.footerOffset)/self.footerSectionSize)):
 			# Get the footer section
 			f = footerSection.FooterSection(util.getBytes(self.data, (self.footerOffset + i * self.footerSectionSize), self.footerSectionSize))
-			f.analyzeFooter()
 			self.footerSections.append(f)
 
 			# Get the section
 			s = section.Section(util.getBytes(self.data, f.sectionOffset, f.compressedSize), f)
-
-			#
-			s.decompress()
-			if s.footerSection.compressedSize != s.rawDataSize:
-				print("Error: Section {}: compressed size discrepancy: {}!={}".format(s.footerSection.label, s.footerSection.compressedSize, s.rawDataSize))
-			if s.footerSection.deflatedSize != s.dataSize:
-				print("Error: Section {}: decompressed size discrepancy: {}!={}".format(s.footerSection.label, s.footerSection.deflatedSize, s.dataSize))
-
 			self.sections.append(s)
 
 			#
 			if debug:
 				print("{} {}".format(s.name, s.footerSection.footerValues))
 
-			# If Section is an IR section
-			if s.name[2:] == b'0I':
-				i = ir.ImpulseResponse(s.data, s.name)
-				i.analyze()
-				self.IRs.append(i)
+			# If Section has an IR, append it to a list to simply code in hx-tool.py
+			if s.ir != None:
+				self.IRs.append(s.ir)
 			if s.name == b'BOLG':
-				sdata = s.data.decode('utf-8')
-				jdata = json.loads(sdata)
-				pprint.pprint(jdata)
+				pass
 			else:
 				pass
 				#print("{} {}".format(s.name, s.data))
