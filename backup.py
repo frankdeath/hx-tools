@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import json
+import pprint
 import util
 import footerSection
 import section
@@ -77,4 +79,10 @@ class Backup:
 				i = ir.ImpulseResponse(s.data, s.name)
 				i.analyze()
 				self.IRs.append(i)
-
+			if s.name == b'BOLG':
+				sdata = s.data.decode('utf-8')
+				jdata = json.loads(sdata)
+				pprint.pprint(jdata)
+			else:
+				pass
+				#print("{} {}".format(s.name, s.data))
