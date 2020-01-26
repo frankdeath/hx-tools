@@ -49,23 +49,26 @@ class Backup:
 		
 		#
 		for i in range(int((self.filesize - self.footerOffset)/self.footerSectionSize)):
-			self.footerSections.append(footerSection.FooterSection(util.getBytes(self.data, (self.footerOffset + i * self.footerSectionSize), self.footerSectionSize)))
-			
-		for s in self.footerSections:
-			#!print(s.data)
-			s.analyzeFooter()
-			#!print("{} {}".format(s.label, s.footerValues))
+			# Get the footer section
+			f = footerSection.FooterSection(util.getBytes(self.data, (self.footerOffset + i * self.footerSectionSize), self.footerSectionSize))
+			f.analyzeFooter()
+			self.footerSections.append(f)
+
+			# Get the section
+			s = section.Section(util.getBytes(self.data, f.sectionOffset, f.compressedSize), f)
 
 			#
-			self.sections.append(section.Section(util.getBytes(self.data, s.sectionOffset, s.compressedSize), s))
-		for s in self.sections:
 			s.decompress()
 			if s.footerSection.compressedSize != s.rawDataSize:
 				print("{}  {}!={}".format(s.footerSection.label, s.footerSection.compressedSize, s.rawDataSize))
 			if s.footerSection.deflatedSize != s.dataSize:
 				print("{}  {}!={}".format(s.footerSection.label, s.footerSection.deflatedSize, s.dataSize))
 
+			self.sections.append(s)
+
+			#
 			print("{} {}".format(s.name, s.footerSection.footerValues))
+
 			# If Section is an IR section
 			if s.name[2:] == b'0I':
 				i = ir.ImpulseResponse(s.data)
