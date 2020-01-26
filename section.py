@@ -44,12 +44,12 @@ class Section:
 	def analyze(self):
 		# If Section is an IR section
 		if self.name[2:] == b'0I':
-			i = ir.ImpulseResponse(self.data, self.name)
-			self.ir = i
+			self.ir = ir.ImpulseResponse(self.data, self.name)
 		if self.name == b'BOLG':
-			sdata = self.data.decode('utf-8')
-			jdata = json.loads(sdata)
-			pprint.pprint(jdata)
+			self.json = json.loads(self.data.decode('utf-8'))
 		else:
 			pass
 			#print("{} {}".format(self.name, self.data))
+
+	def jsonPrint(self):
+		pprint.pprint(self.json)

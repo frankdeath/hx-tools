@@ -65,8 +65,9 @@ class Backup:
 			# If Section has an IR, append it to a list to simply code in hx-tool.py
 			if s.ir != None:
 				self.IRs.append(s.ir)
-			if s.name == b'BOLG':
-				pass
+			if s.json != None:
+				#pass
+				s.jsonPrint()
 			else:
 				pass
 				#print("{} {}".format(s.name, s.data))
