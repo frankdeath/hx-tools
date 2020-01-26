@@ -1,15 +1,23 @@
 #!/usr/bin/env python3
 
 import util
+import struct
 
 class ImpulseResponse:
 	'''
 	Class representing the contents of one IR section
 	'''
-	def __init__(self, data):
+	def __init__(self, data, sectionName):
 		self.data = data
 		self.dataSize = len(data)
+		self.sectionName = sectionName
+		self.irSlot = self.sectionNameToIRSlot(sectionName)
 		self.name = None
+		self.nameStr = None
+
+	def sectionNameToIRSlot(self, sectionName):
+		hexStr = sectionName[:2][::-1].decode('utf-8')
+		return int(hexStr, 16)+1
 
 	def analyze(self):
 		# "RIFF"
@@ -38,8 +46,9 @@ class ImpulseResponse:
 		self.inamSize = util.getInt(self.data, 44+self.fmtChunkSize+self.dataChunkSize)
 		# Name of impulse response
 		self.name = util.getBytes(self.data, 48+self.fmtChunkSize+self.dataChunkSize, self.inamSize)
+		self.nameStr = self.name.decode('utf-8')
 
-		self.info()
+		#!self.info()
 
 	def info(self):
 		#!print(self.dataSize)
@@ -55,6 +64,7 @@ class ImpulseResponse:
 		#1print(self.infoTag)
 		#!print(self.inamTag)
 		#!print(self.inamSize)
-		print("\t", self.name)
+		#!print("\t", self.name)
 		#!print()
-
+		#!print("{:3d} {} {}".format(self.irSlot, self.sectionName, self.name))
+		print(" {:3d} = {}".format(self.irSlot, self.nameStr))
