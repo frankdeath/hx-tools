@@ -17,7 +17,7 @@ def main(args):
 
 	# Print basic details by default
 	b.deviceInfo.printInfo()
-	print("Desc: {}".format(b.description))
+	print("Description: {}".format(b.description))
 
 	if args.global_settings:
 		pprint.pprint(b.globalSettings)
