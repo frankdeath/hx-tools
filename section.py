@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 
+import util
+import ir
+
 import zlib
 import json
 import pprint
-import util
-import ir
 
 class Section:
 	'''
