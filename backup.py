@@ -25,6 +25,7 @@ class Backup:
 		self.IRs = []
 		self.globalSettings = None
 		self.setLists = []
+		self.description = None
 		
 	def read(self, debug=False):
 		# Read the file whole file, then close it
@@ -66,6 +67,8 @@ class Backup:
 				self.setLists.append(s.jsonSetList)
 			elif s.jsonGlobal != None:
 				self.globalSettings = s.jsonGlobal
+			elif s.description != None:
+				self.description = s.description
 			else:
 				pass
 				#print("{} {}".format(s.name, s.data))

@@ -15,6 +15,9 @@ def main(args):
 	b = backup.Backup(filename)
 	b.read(debug=args.debug)
 
+	# Print basic details by default
+	print("Desc: {}".format(b.description))
+
 	if args.global_settings:
 		pprint.pprint(b.globalSettings)
 

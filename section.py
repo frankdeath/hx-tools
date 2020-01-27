@@ -40,6 +40,8 @@ class Section:
 		self.ir = None
 		self.jsonGlobal = None
 		self.jsonSetList = None
+		self.description = None
+		self.setListName = None
 		
 		self.decompress()
 		
@@ -88,6 +90,13 @@ class Section:
 		elif self.name[1:] == b'0LS':
 			# Set List section
 			self.jsonSetList = json.loads(self.data.decode('utf-8'))
+		elif self.name == b'CSED':
+			# Backup file description
+			self.description = self.data.decode('utf-8')
+		elif self.name == b'MNLS':
+			# Set List names
+			# Note: this is probably more interesting on the Helix devices than on the HX Stomp
+			self.setListName = self.data.decode('utf-8')
 		else:
 			pass
 			#print("{} {}".format(self.name, self.data))
