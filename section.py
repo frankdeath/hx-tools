@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import util
+import info
 import ir
 
 import zlib
@@ -40,6 +41,7 @@ class Section:
 		self.ir = None
 		self.jsonGlobal = None
 		self.jsonSetList = None
+		self.deviceInfo = None
 		self.description = None
 		self.setListName = None
 		
@@ -90,6 +92,8 @@ class Section:
 		elif self.name[1:] == b'0LS':
 			# Set List section
 			self.jsonSetList = json.loads(self.data.decode('utf-8'))
+		elif self.name == b'IDXH':
+			self.deviceInfo = info.DeviceInfo(self.data, self.name)
 		elif self.name == b'CSED':
 			# Backup file description
 			self.description = self.data.decode('utf-8')
@@ -100,6 +104,9 @@ class Section:
 		else:
 			pass
 			#print("{} {}".format(self.name, self.data))
+			#print(len(self.data))
+			#for i in range(0, len(self.data), util.intSize):
+			#	print(i, util.getInt(self.data, i))
 
 	def jsonPrint(self, data):
 		pprint.pprint(data)

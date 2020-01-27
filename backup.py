@@ -25,6 +25,7 @@ class Backup:
 		self.IRs = []
 		self.globalSettings = None
 		self.setLists = []
+		self.deviceInfo = None
 		self.description = None
 		
 	def read(self, debug=False):
@@ -67,6 +68,8 @@ class Backup:
 				self.setLists.append(s.jsonSetList)
 			elif s.jsonGlobal != None:
 				self.globalSettings = s.jsonGlobal
+			elif s.deviceInfo != None:
+				self.deviceInfo = s.deviceInfo
 			elif s.description != None:
 				self.description = s.description
 			else:

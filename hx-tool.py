@@ -16,6 +16,7 @@ def main(args):
 	b.read(debug=args.debug)
 
 	# Print basic details by default
+	b.deviceInfo.printInfo()
 	print("Desc: {}".format(b.description))
 
 	if args.global_settings:
