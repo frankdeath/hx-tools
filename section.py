@@ -16,9 +16,6 @@ class Section:
 		self.footer = util.getBytes(data, footerSectionOffset, footerSectionSize)
 		self.footerSize = len(self.footer)
 		self.footerOffset = footerSectionOffset
-		## constants
-		self.nameSize = 4
-		self.intSize = 4
 		## parsed data from the footer
 		self.name = None
 		self.footerValues = []
@@ -50,10 +47,10 @@ class Section:
 
 	def analyzeFooter(self):
 		#
-		self.name = util.getBytes(self.footer, 0, self.nameSize)
+		self.name = util.getBytes(self.footer, 0, util.sectionNameSize)
 		
 		#
-		for i in range(self.nameSize, self.footerSize, self.intSize):
+		for i in range(util.sectionNameSize, self.footerSize, util.intSize):
 			self.footerValues.append(util.getInt(self.footer, i))
 
 		#

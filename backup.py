@@ -11,9 +11,6 @@ class Backup:
 		# Only set the filename at init
 		self.filename=filename
 		self.filesize=None
-		# Constants
-		self.footerOffsetLocation = 0x8
-		self.footerSectionSize = 36
 		#
 		self.footerOffset = None
 		self.footerSize = None
@@ -40,18 +37,18 @@ class Backup:
 		# IR section labeling from b'000I' to b'F70I'
 
 		# 
-		self.footerOffset = util.getInt(self.data, self.footerOffsetLocation)
+		self.footerOffset = util.getInt(self.data, util.footerOffsetLocation)
 		self.footerSize = self.filesize - self.footerOffset
 		if debug:
 			print("footerOffset = {}".format(self.footerOffset))
 			print("footerSize = {}".format(self.footerSize))
 			#
-			#!print((self.filesize - self.footerOffset)/self.footerSectionSize)
+			#!print((self.filesize - self.footerOffset)/util.footerSectionSize)
 		
 		#
-		for footerSectionOffset in range(self.footerOffset, self.filesize, self.footerSectionSize):
+		for footerSectionOffset in range(self.footerOffset, self.filesize, util.footerSectionSize):
 			# Get the section
-			s = section.Section(self.data, footerSectionOffset, self.footerSectionSize) 
+			s = section.Section(self.data, footerSectionOffset, util.footerSectionSize) 
 			self.sections.append(s)
 
 			#
