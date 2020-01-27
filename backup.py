@@ -18,7 +18,6 @@ class Backup:
 		
 		#
 		self.data = None
-		self.footerSections = []
 		self.sections = []
 		self.IRs = []
 		
