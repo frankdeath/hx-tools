@@ -38,7 +38,8 @@ class Section:
 		self.dataSize = None
 		#
 		self.ir = None
-		self.json = None
+		self.jsonGlobal = None
+		self.jsonSetList = None
 		
 		self.decompress()
 		
@@ -78,14 +79,18 @@ class Section:
 
 
 	def analyze(self):
-		# If Section is an IR section
 		if self.name[2:] == b'0I':
+			# IR section
 			self.ir = ir.ImpulseResponse(self.data, self.name)
-		if self.name == b'BOLG':
-			self.json = json.loads(self.data.decode('utf-8'))
+		elif self.name == b'BOLG':
+			# Global section
+			self.jsonGlobal = json.loads(self.data.decode('utf-8'))
+		elif self.name[1:] == b'0LS':
+			# Set List section
+			self.jsonSetList = json.loads(self.data.decode('utf-8'))
 		else:
 			pass
 			#print("{} {}".format(self.name, self.data))
 
-	def jsonPrint(self):
-		pprint.pprint(self.json)
+	def jsonPrint(self, data):
+		pprint.pprint(data)

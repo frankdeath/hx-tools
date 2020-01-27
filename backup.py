@@ -14,12 +14,17 @@ class Backup:
 		#
 		self.footerOffset = None
 		self.footerSize = None
+		# These can probably be deleted
 		self.fixedLabels = [b'IDXH', b'CSED', b'MNLS', b'BOLG']
 		
-		#
+		# Data useful to the Backup class
 		self.data = None
 		self.sections = []
+
+		# Data useful to hx-tool.py
 		self.IRs = []
+		self.globalSettings = None
+		self.setLists = []
 		
 	def read(self, debug=False):
 		# Read the file whole file, then close it
@@ -57,9 +62,10 @@ class Backup:
 			# If Section has an IR, append it to a list to simply code in hx-tool.py
 			if s.ir != None:
 				self.IRs.append(s.ir)
-			if s.json != None:
-				pass
-				#s.jsonPrint()
+			elif s.jsonSetList != None:
+				self.setLists.append(s.jsonSetList)
+			elif s.jsonGlobal != None:
+				self.globalSettings = s.jsonGlobal
 			else:
 				pass
 				#print("{} {}".format(s.name, s.data))
