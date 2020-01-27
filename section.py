@@ -3,6 +3,7 @@
 import util
 import info
 import ir
+import setlist
 
 import zlib
 import json
@@ -40,9 +41,9 @@ class Section:
 		#
 		self.ir = None
 		self.jsonGlobal = None
-		self.jsonSetList = None
 		self.deviceInfo = None
 		self.description = None
+		self.setList = None
 		self.setListName = None
 		
 		self.decompress()
@@ -91,7 +92,7 @@ class Section:
 			self.jsonGlobal = json.loads(self.data.decode('utf-8'))
 		elif self.name[1:] == b'0LS':
 			# Set List section
-			self.jsonSetList = json.loads(self.data.decode('utf-8'))
+			self.setList = setlist.SetList(self.data, self.name)
 		elif self.name == b'IDXH':
 			self.deviceInfo = info.DeviceInfo(self.data, self.name)
 		elif self.name == b'CSED':

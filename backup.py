@@ -64,8 +64,8 @@ class Backup:
 			# If Section has an IR, append it to a list to simply code in hx-tool.py
 			if s.ir != None:
 				self.IRs.append(s.ir)
-			elif s.jsonSetList != None:
-				self.setLists.append(s.jsonSetList)
+			elif s.setList != None:
+				self.setLists.append(s.setList)
 			elif s.jsonGlobal != None:
 				self.globalSettings = s.jsonGlobal
 			elif s.deviceInfo != None:

@@ -18,6 +18,7 @@ def main(args):
 	# Print basic details by default
 	b.deviceInfo.printInfo()
 	print("Description: {}".format(b.description))
+	print("IRs: {}".format(len(b.IRs)))
 
 	if args.global_settings:
 		pprint.pprint(b.globalSettings)
@@ -28,7 +29,7 @@ def main(args):
 
 	if args.set_list:
 		for sl in b.setLists:
-			pprint.pprint(sl)
+			sl.printInfo()
 
 
 if __name__ == '__main__':
