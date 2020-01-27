@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import util
-import footerSection
 import section
 
 class Backup:
@@ -14,10 +13,11 @@ class Backup:
 		self.filesize=None
 		# Constants
 		self.footerOffsetLocation = 0x8
+		self.footerSectionSize = 36
+		#
 		self.footerOffset = None
 		self.footerSize = None
 		self.fixedLabels = [b'IDXH', b'CSED', b'MNLS', b'BOLG']
-		self.footerSectionSize = 36
 		
 		#
 		self.data = None
@@ -49,25 +49,21 @@ class Backup:
 			#!print((self.filesize - self.footerOffset)/self.footerSectionSize)
 		
 		#
-		for i in range(int((self.filesize - self.footerOffset)/self.footerSectionSize)):
-			# Get the footer section
-			f = footerSection.FooterSection(util.getBytes(self.data, (self.footerOffset + i * self.footerSectionSize), self.footerSectionSize))
-			self.footerSections.append(f)
-
+		for footerSectionOffset in range(self.footerOffset, self.filesize, self.footerSectionSize):
 			# Get the section
-			s = section.Section(util.getBytes(self.data, f.sectionOffset, f.compressedSize), f)
+			s = section.Section(self.data, footerSectionOffset, self.footerSectionSize) 
 			self.sections.append(s)
 
 			#
 			if debug:
-				print("{} {}".format(s.name, s.footerSection.footerValues))
+				print("{} {}".format(s.name, s.footerValues))
 
 			# If Section has an IR, append it to a list to simply code in hx-tool.py
 			if s.ir != None:
 				self.IRs.append(s.ir)
 			if s.json != None:
-				#pass
-				s.jsonPrint()
+				pass
+				#s.jsonPrint()
 			else:
 				pass
 				#print("{} {}".format(s.name, s.data))
