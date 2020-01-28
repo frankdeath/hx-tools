@@ -27,7 +27,7 @@ class SetList:
 
 		self.analyze()
 
-		#!pprint.pprint(self.jsonData)
+		#!print(json.dumps(self.jsonData, indent=1))
 
 	def analyze(self):
 		#
@@ -49,3 +49,8 @@ class SetList:
 		#print("")
 		for p in self.presets:
 			p.printInfo()
+
+	def export(self, exportDir):
+		# Export each preset individually
+		for p in self.presets:
+			p.export(exportDir)

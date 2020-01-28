@@ -18,6 +18,12 @@ def getInt(data, offset, size=intSize):
 
 def replaceChars(filename):
 	#
-	filename.replace(":", "-")
-	filename.replace(" ", "_")
+	filename = filename.replace(':', '-')
+	filename = filename.replace(' ', '_')
+	filename = filename.replace('/', '_')
+	filename = filename.replace('\'', '')
+	filename = filename.replace('+', '-')
+	filename = filename.replace('?', '')
+	filename = filename.replace('$', 'Money')
+	print([ord(x) for x in ('/', ':', "'", '\'', ' ')])
 	return filename

@@ -2,6 +2,8 @@
 
 import util
 
+import json
+
 class Preset:
 	'''
 	Class representing the contents of one preset from the ##LS section
@@ -23,3 +25,14 @@ class Preset:
 
 	def printInfo(self):
 		print(" {:3s} {}".format(self.indexStr, self.name))
+
+	def createFileName(self):
+		return util.replaceChars("{}-{}.hlx".format(self.indexStr, self.name))
+
+	def export(self, exportDir):
+		filename = "{}/{}".format(exportDir, self.createFileName())
+		if self.name != None:
+			print("Exporting {}".format(filename))
+			f = open(filename, "w")
+			f.write(json.dumps({"data": self.data, "meta" : {"original":0, "pbn":0, "premium":0}, "schema":"L6Preset", "version":6}, indent=1, separators=(',', ' : ')))
+			f.close()

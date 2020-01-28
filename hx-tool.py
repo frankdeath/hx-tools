@@ -39,7 +39,10 @@ def main(args):
 
 	if args.set_list:
 		for sl in b.setLists:
-			sl.printInfo()
+			if doExport:
+				sl.export(b.exportDir)
+			else:
+				sl.printInfo()
 
 
 if __name__ == '__main__':
