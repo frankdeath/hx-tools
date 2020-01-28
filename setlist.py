@@ -27,6 +27,8 @@ class SetList:
 
 		self.analyze()
 
+		#!pprint.pprint(self.jsonData)
+
 	def analyze(self):
 		#
 		self.jsonData = json.loads(self.rawData.decode('utf-8'))

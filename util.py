@@ -15,3 +15,9 @@ def getBytes(data, offset, size):
 def getInt(data, offset, size=intSize):
 	# Return a 32-bit int
 	return int.from_bytes(data[offset:offset+size], byteorder='little', signed=False)
+
+def replaceChars(filename):
+	#
+	filename.replace(":", "-")
+	filename.replace(" ", "_")
+	return filename

@@ -15,6 +15,13 @@ def main(args):
 	b = backup.Backup(filename)
 	b.read(debug=args.debug)
 
+	doExport = False
+
+	if args.export:
+		# True = Success, False = Fail
+		doExport = b.makeExportDir()
+		#!print(doExport)
+
 	# Print basic details by default
 	b.deviceInfo.printInfo()
 	print("Description: {}".format(b.description))
@@ -25,7 +32,10 @@ def main(args):
 
 	if args.ir:
 		for i in b.IRs:
-			i.info()
+			if doExport:
+				i.export(b.exportDir)
+			else:
+				i.info()
 
 	if args.set_list:
 		for sl in b.setLists:
@@ -44,6 +54,7 @@ if __name__ == '__main__':
 	parser.add_argument("--debug", action="store_true", help="Show debug info")
 	parser.add_argument("--global-settings", action="store_true", help="Show global settings")
 	parser.add_argument("--set-list", action="store_true", help="Show set list info")
+	parser.add_argument("--export", action="store_true", help="Export data files")
 
 	args = parser.parse_args(sys.argv[1:])
 	

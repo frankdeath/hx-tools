@@ -47,7 +47,8 @@ class ImpulseResponse:
 		self.inamSize = util.getInt(self.data, 44+self.fmtChunkSize+self.dataChunkSize)
 		# Name of impulse response
 		self.name = util.getBytes(self.data, 48+self.fmtChunkSize+self.dataChunkSize, self.inamSize)
-		self.nameStr = self.name.decode('utf-8')
+		# Remove the trailing null byte when converting to a string
+		self.nameStr = self.name.decode('utf-8')[:-1]
 
 		#!self.info()
 
@@ -69,3 +70,13 @@ class ImpulseResponse:
 		#!print()
 		#!print("{:3d} {} {}".format(self.irSlot, self.sectionName, self.name))
 		print(" {:3d} = {}".format(self.irSlot, self.nameStr))
+
+	def createFileName(self):
+		return util.replaceChars("{:03d}-{}.wav".format(self.irSlot, self.nameStr))
+
+	def export(self, exportDir):
+		filename = "{}/{}".format(exportDir, self.createFileName())
+		print("Exporting {}".format(filename))
+		f = open(filename, "wb")
+		f.write(self.data)
+		f.close()

@@ -3,6 +3,8 @@
 import util
 import section
 
+import os
+
 class Backup:
 	'''
 	Class the contents of an .hxb file
@@ -28,6 +30,8 @@ class Backup:
 		self.deviceInfo = None
 		self.description = None
 		
+		self.exportDir = None
+
 	def read(self, debug=False):
 		# Read the file whole file, then close it
 		with open(self.filename, "rb") as binary_file:
@@ -75,3 +79,12 @@ class Backup:
 			else:
 				pass
 				#print("{} {}".format(s.name, s.data))
+
+	def makeExportDir(self):
+		if self.filename[-4:] == '.hxb':
+			self.exportDir = "{}-export".format(self.filename[:-4])
+			if not os.path.isdir(self.exportDir):
+				os.mkdir(self.exportDir)
+			return True
+		else:
+			return False
