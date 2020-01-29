@@ -25,5 +25,4 @@ def replaceChars(filename):
 	filename = filename.replace('+', '-')
 	filename = filename.replace('?', '')
 	filename = filename.replace('$', 'Money')
-	print([ord(x) for x in ('/', ':', "'", '\'', ' ')])
 	return filename
