@@ -78,5 +78,6 @@ class ImpulseResponse:
 		filename = "{}/{}".format(exportDir, self.createFileName())
 		print("Exporting {}".format(filename))
 		f = open(filename, "wb")
+		# NOTE: the data that is exported is identical to data that is exported from HX Edit
 		f.write(self.data)
 		f.close()
