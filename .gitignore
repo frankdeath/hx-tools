@@ -1,2 +1,5 @@
 *.hxb
+*.hls
+*-export
+archive
 __pycache__
