@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import json
+
 # Constants
 
 footerOffsetLocation = 0x8
@@ -26,3 +28,6 @@ def replaceChars(filename):
 	filename = filename.replace('?', '')
 	filename = filename.replace('$', 'Money')
 	return filename
+
+def dumpJson(data):
+	return json.dumps(data, indent=1, separators=(',', ' : '))

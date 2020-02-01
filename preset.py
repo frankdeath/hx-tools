@@ -35,5 +35,5 @@ class Preset:
 			print("Exporting {}".format(filename))
 			f = open(filename, "w")
 			# NOTE: self.data is a subset of the data that is exported from HX Edit
-			f.write(json.dumps({"data": self.data, "meta" : {"original":0, "pbn":0, "premium":0}, "schema":"L6Preset", "version":6}, indent=1, separators=(',', ' : ')))
+			f.write(util.dumpJson({"data": self.data, "meta" : {"original":0, "pbn":0, "premium":0}, "schema":"L6Preset", "version":6}))
 			f.close()

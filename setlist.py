@@ -10,7 +10,7 @@ class SetList:
 	'''
 	Class representing the contents of the ##LS section
 	'''
-	def __init__(self, data, sectionName):
+	def __init__(self, data, sectionName=None):
 		# rawData is the raw bytes of the section
 		self.rawData = data
 		self.rawDataSize = len(data)
@@ -27,7 +27,7 @@ class SetList:
 
 		self.analyze()
 
-		#!print(json.dumps(self.jsonData, indent=1))
+		#!print(util.dumpJson(self.jsonData))
 
 	def analyze(self):
 		#
