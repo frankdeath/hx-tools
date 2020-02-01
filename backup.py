@@ -95,7 +95,7 @@ class Backup:
 				#print("{} {}".format(s.name, s.data))
 
 	def makeExportDir(self):
-		if self.extension == '.hxb':
+		if self.extension == '.hxb' or self.extension == '.hls':
 			self.exportDir = "{}-export".format(self.filename[:-4])
 			if not os.path.isdir(self.exportDir):
 				os.mkdir(self.exportDir)
