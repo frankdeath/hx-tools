@@ -2,6 +2,7 @@
 
 import util
 import section
+import setlist
 
 import os
 
@@ -12,6 +13,7 @@ class Backup:
 	def __init__(self, filename):
 		# Only set the filename at init
 		self.filename=filename
+		self.extension=filename[-4:]
 		self.filesize=None
 		#
 		self.footerOffset = None
@@ -42,7 +44,19 @@ class Backup:
 		if debug:
 			print("filename = {}".format(self.filename))
 			print("filesize = {}".format(self.filesize))
-		
+
+		if self.extension == '.hxb':
+			self.analyzeHXB(debug)
+		elif self.extension == '.hls':
+			self.analyzeHLS(debug)
+		else:
+			print("Error: unknown file extension")
+			
+	def analyzeHLS(self, debug):
+		# The data for the .hls was read as binary data so it can be parsed like the data from the .hxb file
+		self.setLists.append(setlist.SetList(self.data))
+
+	def analyzeHXB(self, debug):
 		# Diagnostic (IR lables only exist if loaded, SL00 always exists, rest depend on use)
 		# IR section labeling from b'000I' to b'F70I'
 
@@ -81,7 +95,7 @@ class Backup:
 				#print("{} {}".format(s.name, s.data))
 
 	def makeExportDir(self):
-		if self.filename[-4:] == '.hxb':
+		if self.extension == '.hxb':
 			self.exportDir = "{}-export".format(self.filename[:-4])
 			if not os.path.isdir(self.exportDir):
 				os.mkdir(self.exportDir)

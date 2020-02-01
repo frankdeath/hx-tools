@@ -12,6 +12,8 @@ import pprint
 def main(args):
 	filename = args.filename
 	
+	# check for .hls or .hxb file
+	
 	b = backup.Backup(filename)
 	b.read(debug=args.debug)
 
@@ -23,19 +25,20 @@ def main(args):
 		#!print(doExport)
 
 	# Print basic details by default
-	b.deviceInfo.printInfo()
-	print("Description: {}".format(b.description))
-	print("IRs: {}".format(len(b.IRs)))
+	if b.extension == '.hxb':
+		b.deviceInfo.printInfo()
+		print("Description: {}".format(b.description))
+		print("IRs: {}".format(len(b.IRs)))
 
-	if args.global_settings:
-		pprint.pprint(b.globalSettings)
+		if args.global_settings:
+			pprint.pprint(b.globalSettings)
 
-	if args.ir:
-		for i in b.IRs:
-			if doExport:
-				i.export(b.exportDir)
-			else:
-				i.info()
+		if args.ir:
+			for i in b.IRs:
+				if doExport:
+					i.export(b.exportDir)
+				else:
+					i.info()
 
 	if args.set_list:
 		for sl in b.setLists:
