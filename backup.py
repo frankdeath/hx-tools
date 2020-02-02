@@ -5,6 +5,7 @@ import section
 import setlist
 
 import os
+import pprint
 
 class Backup:
 	'''
@@ -114,3 +115,6 @@ class Backup:
 			self.setLists[i].printSummary()
 		print("IRs: {}".format(len(self.IRs)))
 
+	def printGlobalSettings(self):
+		# It isn't obvious if this info is useful or not
+		pprint.pprint(self.globalSettings)

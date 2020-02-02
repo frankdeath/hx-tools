@@ -6,9 +6,6 @@ A command-line tool to examine .hxb files
 
 import backup
 
-# Temporarily call pprint directly, until more classes exist
-import pprint
-
 def main(args):
 	filename = args.filename
 	
@@ -24,12 +21,12 @@ def main(args):
 		doExport = b.makeExportDir()
 		#!print(doExport)
 
-	# Print basic details by default
 	if b.extension == '.hxb':
+		# Print basic details by default
 		b.printSummary()
 
 		if args.global_settings:
-			pprint.pprint(b.globalSettings)
+			b.printGlobalSettings()
 
 		if args.ir:
 			for i in b.IRs:
