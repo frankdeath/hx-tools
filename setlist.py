@@ -71,10 +71,9 @@ class SetList:
 			if p.name == "New Preset":
 				self.numNewPreset += 1
 
-	def printSummary(self):
-		print("Presets: {}".format(len(self.presets)))
-		print("  Empty: {}".format(self.numEmpty))
-		print("  New Preset: {}".format(self.numNewPreset))
+	def printStats(self):
+		print("  Used:      {:3d}/{}".format(len(self.presets)-self.numEmpty, len(self.presets)))
+		print("  Available: {:3d}/{}".format(self.numEmpty, len(self.presets)))
 
 	def printInfo(self):
 		#print("")

@@ -111,8 +111,8 @@ class Backup:
 		self.deviceInfo.printInfo()
 		print("Description: {}".format(self.description))
 		for i in range(len(self.setLists)):
-			print("Set List: {}".format(self.setListNames[i]))
-			self.setLists[i].printSummary()
+			print("Set List #{}: {}".format(i+1, self.setListNames[i]))
+			self.setLists[i].printStats()
 		print("IRs: {}".format(len(self.IRs)))
 
 	def printGlobalSettings(self):
