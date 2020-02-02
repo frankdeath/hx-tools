@@ -21,7 +21,7 @@ class Preset:
 			self.name = None
 
 	def indexToStr(self):
-		return "{}{}".format(int(self.index/3)+1, "ABC"[self.index%3])
+		return "{:02d}{}".format(int(self.index/3)+1, "ABC"[self.index%3])
 
 	def printInfo(self):
 		print(" {:3s} {}".format(self.indexStr, self.name))
