@@ -109,6 +109,10 @@ class Backup:
 		for i in self.IRs:
 			i.export(self.exportDir)
 
+	def exportAllSetLists(self):
+		for sl in self.setLists:
+			sl.export(self.exportDir)
+
 	def printSummary(self):
 		#
 		self.deviceInfo.printInfo()
@@ -125,3 +129,7 @@ class Backup:
 	def printAllIRs(self):
 		for i in self.IRs:
 			i.info()
+
+	def printAllSetLists(self):
+		for sl in self.setLists:
+			sl.printInfo()

@@ -35,11 +35,10 @@ def main(args):
 				b.printAllIRs()
 
 	if args.set_list:
-		for sl in b.setLists:
-			if doExport:
-				sl.export(b.exportDir)
-			else:
-				sl.printInfo()
+		if doExport:
+			b.exportAllSetLists()
+		else:
+			b.printAllSetLists()
 
 
 if __name__ == '__main__':
