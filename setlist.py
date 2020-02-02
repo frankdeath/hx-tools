@@ -28,6 +28,8 @@ class SetList:
 		self.schema = None
 		self.version = None
 		self.presets = []
+		self.numNewPreset = 0
+		self.numEmpty = 0
 
 		self.analyze()
 
@@ -37,6 +39,8 @@ class SetList:
 		#
 		self.jsonData = json.loads(self.rawData.decode('utf-8'))
 		#!print(self.jsonData)
+		
+		# .hls files contain encoded data
 		if 'encoded_data' in self.jsonData:
 			if self.jsonData['encoding'] == "Base64":
 				self.compressedData = base64.b64decode(self.jsonData['encoded_data'])
@@ -60,7 +64,17 @@ class SetList:
 		self.dataPresets = self.data['presets']
 		
 		for i in range(len(self.dataPresets)):
-			self.presets.append(preset.Preset(self.dataPresets[i], i, self.sectionName))
+			p = preset.Preset(self.dataPresets[i], i, self.sectionName)
+			self.presets.append(p)
+			if p.name == None:
+				self.numEmpty += 1
+			if p.name == "New Preset":
+				self.numNewPreset += 1
+
+	def printSummary(self):
+		print("Presets: {}".format(len(self.presets)))
+		print("  Empty: {}".format(self.numEmpty))
+		print("  New Preset: {}".format(self.numNewPreset))
 
 	def printInfo(self):
 		#print("")

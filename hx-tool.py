@@ -28,6 +28,9 @@ def main(args):
 	if b.extension == '.hxb':
 		b.deviceInfo.printInfo()
 		print("Description: {}".format(b.description))
+		for i in range(len(b.setLists)):
+			print("Set List: {}".format(b.setListNames[i]))
+			b.setLists[i].printSummary()
 		print("IRs: {}".format(len(b.IRs)))
 
 		if args.global_settings:
