@@ -103,3 +103,14 @@ class Backup:
 			return True
 		else:
 			return False
+
+
+	def printSummary(self):
+		#
+		self.deviceInfo.printInfo()
+		print("Description: {}".format(self.description))
+		for i in range(len(self.setLists)):
+			print("Set List: {}".format(self.setListNames[i]))
+			self.setLists[i].printSummary()
+		print("IRs: {}".format(len(self.IRs)))
+

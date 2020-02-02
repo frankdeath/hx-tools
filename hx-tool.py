@@ -26,12 +26,7 @@ def main(args):
 
 	# Print basic details by default
 	if b.extension == '.hxb':
-		b.deviceInfo.printInfo()
-		print("Description: {}".format(b.description))
-		for i in range(len(b.setLists)):
-			print("Set List: {}".format(b.setListNames[i]))
-			b.setLists[i].printSummary()
-		print("IRs: {}".format(len(b.IRs)))
+		b.printSummary()
 
 		if args.global_settings:
 			pprint.pprint(b.globalSettings)
