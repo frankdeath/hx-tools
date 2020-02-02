@@ -94,6 +94,8 @@ class SetList:
 		
 		# Calculate values for 'compression' dictionary
 		data = util.dumpJson(hlsData['data']).encode('utf-8')
+		# sorting the keys has no effect on the output
+		#!data = util.dumpJsonSorted(hlsData['data']).encode('utf-8')
 		size = len(data)
 		crc32 = zlib.crc32(data)
 		# Add the 'compression' dictionary
