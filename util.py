@@ -31,3 +31,6 @@ def replaceChars(filename):
 
 def dumpJson(data):
 	return json.dumps(data, indent=1, separators=(',', ' : '))
+
+def dumpJsonSorted(data):
+	return json.dumps(data, indent=1, separators=(',', ' : '), sort_keys=True)

@@ -16,7 +16,7 @@ def main(args):
 
 	doExport = False
 
-	if args.export:
+	if args.export or args.export_hls:
 		# True = Success, False = Fail
 		doExport = b.makeExportDir()
 		#!print(doExport)
@@ -34,12 +34,14 @@ def main(args):
 			else:
 				b.printAllIRs()
 
+		if args.export_hls:
+			b.exportAllSetLists()
+
 	if args.set_list:
 		if doExport:
 			b.exportAllPresets()
 		else:
 			b.printAllSetLists()
-
 
 if __name__ == '__main__':
 	import argparse as ap
@@ -54,6 +56,7 @@ if __name__ == '__main__':
 	parser.add_argument("--global-settings", action="store_true", help="Show global settings")
 	parser.add_argument("--set-list", action="store_true", help="Show set list info")
 	parser.add_argument("--export", action="store_true", help="Export data files")
+	parser.add_argument("--export-hls", action="store_true", help="Export set list files")
 
 	args = parser.parse_args(sys.argv[1:])
 	

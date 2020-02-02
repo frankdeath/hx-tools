@@ -113,8 +113,9 @@ class Backup:
 			i.export(dirName)
 
 	def exportAllSetLists(self):
-		for sl in self.setLists:
-			sl.export(self.exportDir)
+		if self.extension == '.hxb':
+			for sl in self.setLists:
+				sl.exportHLS(self.exportDir)
 
 	def exportAllPresets(self, subDirPrefix="SetList"):
 		for i in range(len(self.setLists)):
