@@ -36,7 +36,7 @@ def main(args):
 
 	if args.set_list:
 		if doExport:
-			b.exportAllSetLists()
+			b.exportAllPresets()
 		else:
 			b.printAllSetLists()
 

@@ -106,12 +106,22 @@ class Backup:
 			return False
 
 	def exportAllIRs(self, subDir="IRs"):
+		dirName = "{}/{}".format(self.exportDir, subDir)
+		if not os.path.isdir(dirName):
+			os.mkdir(dirName)
 		for i in self.IRs:
-			i.export(self.exportDir)
+			i.export(dirName)
 
-	def exportAllSetLists(self, subDirPrefix="SetList"):
+	def exportAllSetLists(self):
 		for sl in self.setLists:
 			sl.export(self.exportDir)
+
+	def exportAllPresets(self, subDirPrefix="SetList"):
+		for i in range(len(self.setLists)):
+			dirName = "{}/{}{}".format(self.exportDir, subDirPrefix, i)
+			if not os.path.isdir(dirName):
+				os.mkdir(dirName)
+			self.setLists[i].exportPresets(dirName)
 
 	def printSummary(self):
 		#

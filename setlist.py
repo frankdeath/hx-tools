@@ -84,3 +84,8 @@ class SetList:
 		# Export each preset individually
 		for p in self.presets:
 			p.export(exportDir)
+
+	def exportPresets(self, exportDir):
+		# Export each preset individually
+		for p in self.presets:
+			p.export(exportDir)
