@@ -105,11 +105,11 @@ class Backup:
 		else:
 			return False
 
-	def exportAllIRs(self):
+	def exportAllIRs(self, subDir="IRs"):
 		for i in self.IRs:
 			i.export(self.exportDir)
 
-	def exportAllSetLists(self):
+	def exportAllSetLists(self, subDirPrefix="SetList"):
 		for sl in self.setLists:
 			sl.export(self.exportDir)
 
