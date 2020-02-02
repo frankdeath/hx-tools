@@ -18,8 +18,6 @@ class Backup:
 		#
 		self.footerOffset = None
 		self.footerSize = None
-		# These can probably be deleted
-		self.fixedLabels = [b'IDXH', b'CSED', b'MNLS', b'BOLG']
 		
 		# Data useful to the Backup class
 		self.data = None
