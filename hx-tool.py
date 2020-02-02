@@ -29,11 +29,10 @@ def main(args):
 			b.printGlobalSettings()
 
 		if args.ir:
-			for i in b.IRs:
-				if doExport:
-					i.export(b.exportDir)
-				else:
-					i.info()
+			if doExport:
+				b.exportAllIRs()
+			else:
+				b.printAllIRs()
 
 	if args.set_list:
 		for sl in b.setLists:

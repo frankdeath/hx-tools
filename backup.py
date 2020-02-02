@@ -105,6 +105,9 @@ class Backup:
 		else:
 			return False
 
+	def exportAllIRs(self):
+		for i in self.IRs:
+			i.export(self.exportDir)
 
 	def printSummary(self):
 		#
@@ -118,3 +121,7 @@ class Backup:
 	def printGlobalSettings(self):
 		# It isn't obvious if this info is useful or not
 		pprint.pprint(self.globalSettings)
+
+	def printAllIRs(self):
+		for i in self.IRs:
+			i.info()
