@@ -86,7 +86,7 @@ if __name__ == '__main__':
 
 	args = parser.parse_args(sys.argv[1:])
 	
-	#!print(args)
+	print(args)
 
 	if (os.path.isfile(args.filename)):
 		main(args)

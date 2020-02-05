@@ -152,7 +152,8 @@ class Backup:
 		pprint.pprint(self.globalSettings)
 
 	def printIR(self, index):
-		self.IRs[int(index)-1].info()
+		#!self.IRs[int(index)-1].info()
+		self.IRs[util.indicesToList(index)-1].info()
 
 	def printAllIRs(self):
 		for i in self.IRs:
@@ -166,4 +167,5 @@ class Backup:
 			sl.printInfo()
 
 	def printPreset(self, setListIndex, presetIndex):
-		self.setLists[int(setListIndex)].printPreset(int(presetIndex)-1)
+		#!self.setLists[int(setListIndex)].printPreset(int(presetIndex)-1)
+		self.setLists[int(setListIndex)].printPresets([x-1 for x in util.indicesToList(presetIndex)])

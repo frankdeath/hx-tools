@@ -79,7 +79,16 @@ class SetList:
 		print("  Available: {:3d}/{}".format(self.numEmpty, len(self.presets)))
 
 	def printPreset(self, index):
-		self.presets[index].printInfo()
+		try:
+			self.presets[index].printInfo()
+		except IndexError as e:
+			print("Error: {} is not a valid index".format(index+1))
+
+	def printPresets(self, indexList):
+		if type(indexList) == 'int':
+			indexList = [indexList,]
+		for i in indexList:
+			self.printPreset(i)
 
 	def printInfo(self):
 		#print("")
