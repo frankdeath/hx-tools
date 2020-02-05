@@ -78,6 +78,9 @@ class SetList:
 		print("  Used:      {:3d}/{}".format(len(self.presets)-self.numEmpty, len(self.presets)))
 		print("  Available: {:3d}/{}".format(self.numEmpty, len(self.presets)))
 
+	def printPreset(self, index):
+		self.presets[index].printInfo()
+
 	def printInfo(self):
 		#print("")
 		for p in self.presets:
@@ -118,6 +121,9 @@ class SetList:
 		f = open(filename, "w")
 		f.write(util.dumpJsonSorted(hlsData))
 		f.close()
+
+	def exportPreset(self, index, exportDir):
+		self.presets[index].export(exportDir)
 
 	def exportPresets(self, exportDir):
 		# Export each preset individually

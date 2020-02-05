@@ -105,23 +105,37 @@ class Backup:
 		else:
 			return False
 
-	def exportAllIRs(self, subDir="IRs"):
+	def getExportPath(self, subDir):
 		dirName = "{}/{}".format(self.exportDir, subDir)
 		if not os.path.isdir(dirName):
 			os.mkdir(dirName)
+		return dirName
+
+	def exportIR(self, index, subDir="IRs"):
+		dirName = self.getExportPath(subDir)
+		self.IRs[int(index)-1].export(dirName)
+
+	def exportAllIRs(self, subDir="IRs"):
+		dirName = self.getExportPath(subDir)
 		for i in self.IRs:
 			i.export(dirName)
+
+	def exportSetList(self, index):
+		if self.extension == '.hxb':
+			self.setLists[int(index)-1].exportHLS(self.exportDir)
 
 	def exportAllSetLists(self):
 		if self.extension == '.hxb':
 			for sl in self.setLists:
 				sl.exportHLS(self.exportDir)
 
+	def exportPreset(self, setListIndex, presetIndex, subDirPrefix="SetList"):
+		dirName = self.getExportPath("{}{}".format(subDirPrefix, setListIndex))
+		self.setLists[int(setListIndex)-1].exportPreset(int(presetIndex)-1, dirName)
+
 	def exportAllPresets(self, subDirPrefix="SetList"):
 		for i in range(len(self.setLists)):
-			dirName = "{}/{}{}".format(self.exportDir, subDirPrefix, i)
-			if not os.path.isdir(dirName):
-				os.mkdir(dirName)
+			dirName = self.getExportPath("{}{}".format(subDirPrefix, i))
 			self.setLists[i].exportPresets(dirName)
 
 	def printSummary(self):
@@ -137,10 +151,19 @@ class Backup:
 		# It isn't obvious if this info is useful or not
 		pprint.pprint(self.globalSettings)
 
+	def printIR(self, index):
+		self.IRs[int(index)-1].info()
+
 	def printAllIRs(self):
 		for i in self.IRs:
 			i.info()
 
+	def printSetList(self, index):
+		self.setLists[int(index)-1].printInfo()
+
 	def printAllSetLists(self):
 		for sl in self.setLists:
 			sl.printInfo()
+
+	def printPreset(self, setListIndex, presetIndex):
+		self.setLists[int(setListIndex)].printPreset(int(presetIndex)-1)

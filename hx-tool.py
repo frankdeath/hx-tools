@@ -16,7 +16,7 @@ def main(args):
 
 	doExport = False
 
-	if args.export or args.export_hls:
+	if args.x:
 		# True = Success, False = Fail
 		doExport = b.makeExportDir()
 		#!print(doExport)
@@ -30,18 +30,41 @@ def main(args):
 
 		if args.ir:
 			if doExport:
-				b.exportAllIRs()
+				if args.i == 'all':
+					b.exportAllIRs()
+				else:
+					b.exportIR(args.i)
 			else:
-				b.printAllIRs()
-
-		if args.export_hls:
-			b.exportAllSetLists()
+				if args.i == 'all':
+					b.printAllIRs()
+				else:
+					b.printIR(args.i)
 
 	if args.set_list:
 		if doExport:
-			b.exportAllPresets()
+			# Note: args.s has no effect if the data file is a .hls
+			if args.s == 'all':
+				b.exportAllSetLists()
+			else:
+				b.exportSetList(args.s)
 		else:
-			b.printAllSetLists()
+			if args.s == 'all':
+				b.printAllSetLists()
+			else:
+				b.printSetList(args.s)
+	
+	if args.preset:
+		if doExport:
+			if args.p == 'all':
+				b.exportAllPresets()
+			else:
+				b.exportPreset(args.s, args.p)
+		else:
+			if args.p == 'all':
+				b.printSetList(args.s)
+			else:
+				b.printPreset(args.s, args.p)
+
 
 if __name__ == '__main__':
 	import argparse as ap
@@ -51,12 +74,15 @@ if __name__ == '__main__':
 	parser = ap.ArgumentParser("hx-tool.py")
 	
 	parser.add_argument("filename", action="store", default=None, help="HX Stmop backup file name")
-	parser.add_argument("--ir", action="store_true", help="Show IR names")
 	parser.add_argument("--debug", action="store_true", help="Show debug info")
 	parser.add_argument("--global-settings", action="store_true", help="Show global settings")
 	parser.add_argument("--set-list", action="store_true", help="Show set list info")
-	parser.add_argument("--export", action="store_true", help="Export data files")
-	parser.add_argument("--export-hls", action="store_true", help="Export set list files")
+	parser.add_argument("-s", action="store", default='0', help="Set-list index")
+	parser.add_argument("--ir", action="store_true", help="Show IR names")
+	parser.add_argument("-i", action="store", default='all', help="IR index")
+	parser.add_argument("--preset", action="store_true", help="Show Preset details")
+	parser.add_argument("-p", action="store", default='all', help="Preset index")
+	parser.add_argument("-x", action="store_true", help="Export data files")
 
 	args = parser.parse_args(sys.argv[1:])
 	
