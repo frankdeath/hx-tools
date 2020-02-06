@@ -5,6 +5,7 @@ A command-line tool to examine .hxb files
 '''
 
 import backup
+import util
 
 def main(args):
 	filename = args.filename
@@ -21,7 +22,7 @@ def main(args):
 		doExport = b.makeExportDir()
 		#!print(doExport)
 
-	if b.extension == '.hxb':
+	if b.isFullBackup():
 		# Print basic details by default
 		b.printSummary()
 
@@ -32,39 +33,63 @@ def main(args):
 			if doExport:
 				if args.i == 'all':
 					b.exportAllIRs()
+				elif util.argIsList(args.i):
+					b.exportIRs(util.indexStringToList(args.i))
 				else:
-					b.exportIR(args.i)
+					b.exportIR(int(args.i))
 			else:
 				if args.i == 'all':
 					b.printAllIRs()
+				elif util.argIsList(args.i):
+					b.printIRs(util.indexStringToList(args.i))
 				else:
-					b.printIR(args.i)
+					b.printIR(int(args.i))
 
-	if args.set_list:
-		if doExport:
-			# Note: args.s has no effect if the data file is a .hls
-			if args.s == 'all':
+		if args.set_list:
+			if doExport:
+				if args.s == 'all':
+					b.exportAllSetLists()
+				elif util.argIsList(args.s):
+					b.exportSetLists(util.indexStringToList(args.s))
+				else:
+					b.exportSetList(int(args.s))
+			else:
+				if args.s == 'all':
+					b.printAllSetLists()
+				elif util.argIsList(args.s):
+					b.printSetLists(util.indexStringToList(args.s))
+				else:
+					b.printSetList(int(args.s))
+	else:
+		# A .hls file only has one set list?
+		if args.set_list:
+			if doExport:
 				b.exportAllSetLists()
 			else:
-				b.exportSetList(args.s)
-		else:
-			if args.s == 'all':
 				b.printAllSetLists()
-			else:
-				b.printSetList(args.s)
 	
 	if args.preset:
 		if doExport:
 			if args.p == 'all':
 				b.exportAllPresets()
+			elif util.argIsList(args.p):
+				b.exportPresets(int(args.s), util.indexStringToList(args.p))
 			else:
-				b.exportPreset(args.s, args.p)
+				if b.isFullBackup():
+					b.exportPreset(int(args.s), int(args.p))
+				else:
+					b.exportPreset(1, int(args.p))
 		else:
 			if args.p == 'all':
-				b.printSetList(args.s)
+				# should there be a printAllPresets function for consistency?
+				b.printSetList(int(args.s))
+			elif util.argIsList(args.p):
+				b.printPresets(int(args.s), util.indexStringToList(args.p))
 			else:
-				b.printPreset(args.s, args.p)
-
+				if b.isFullBackup():
+					b.printPreset(int(args.s), int(args.p))
+				else:
+					b.printPreset(1, int(args.p))
 
 if __name__ == '__main__':
 	import argparse as ap
@@ -86,7 +111,7 @@ if __name__ == '__main__':
 
 	args = parser.parse_args(sys.argv[1:])
 	
-	print(args)
+	#!print(args)
 
 	if (os.path.isfile(args.filename)):
 		main(args)

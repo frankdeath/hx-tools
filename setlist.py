@@ -79,16 +79,8 @@ class SetList:
 		print("  Available: {:3d}/{}".format(self.numEmpty, len(self.presets)))
 
 	def printPreset(self, index):
-		try:
-			self.presets[index].printInfo()
-		except IndexError as e:
-			print("Error: {} is not a valid index".format(index+1))
-
-	def printPresets(self, indexList):
-		if type(indexList) == 'int':
-			indexList = [indexList,]
-		for i in indexList:
-			self.printPreset(i)
+		# index starts at 0
+		self.presets[index].printInfo()
 
 	def printInfo(self):
 		#print("")
@@ -132,9 +124,10 @@ class SetList:
 		f.close()
 
 	def exportPreset(self, index, exportDir):
+		# index starts at 0
 		self.presets[index].export(exportDir)
 
-	def exportPresets(self, exportDir):
+	def exportAllPresets(self, exportDir):
 		# Export each preset individually
 		for p in self.presets:
 			p.export(exportDir)

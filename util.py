@@ -35,20 +35,22 @@ def dumpJson(data):
 def dumpJsonSorted(data):
 	return json.dumps(data, indent=1, separators=(',', ' : '), sort_keys=True)
 
-def indicesToList(argString, func=int):
+def argIsList(argString):
+	if (',' in argString) or ('-' in argString):
+		return True
+	else:
+		return False
+
+def indexStringToList(argString, func=int):
 	# function to convert index arguments like '1-5,7,21,42-54' into a list of indices
 	# func = function to convert from string to int
 	result = []
-	if (',' in argString) or ('-' in argString):
-		for x in argString.split(','):
-			if '-' in x:
-				a, b = x.split('-')
-				for y in range(func(a), func(b)+1):
-					result.append(y)
-			else:
-				result.append(func(x))
-	else:
-		# There is only one element, return a list with one element
-		result.append([func(x),])
+	for x in argString.split(','):
+		if '-' in x:
+			a, b = x.split('-')
+			for y in range(func(a), func(b)+1):
+				result.append(y)
+		else:
+			result.append(func(x))
 	return result[:]
 

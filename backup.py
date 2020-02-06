@@ -96,6 +96,9 @@ class Backup:
 				pass
 				#print("{} {}".format(s.name, s.data))
 
+	def isFullBackup(self):
+		return (self.extension == '.hxb')
+
 	def makeExportDir(self):
 		if self.extension == '.hxb' or self.extension == '.hls':
 			self.exportDir = "{}-export".format(self.filename[:-4])
@@ -112,31 +115,48 @@ class Backup:
 		return dirName
 
 	def exportIR(self, index, subDir="IRs"):
+		# index is a int numbered from 1
 		dirName = self.getExportPath(subDir)
-		self.IRs[int(index)-1].export(dirName)
+		self.IRs[index-1].export(dirName)
+
+	def exportIRs(self, iList, subDir="IRs"):
+		# iList is a list of indices numbered from 1
+		dirName = self.getExportPath(subDir)
+		for i in iList:
+			self.IRs[i-1].export(dirName)
 
 	def exportAllIRs(self, subDir="IRs"):
 		dirName = self.getExportPath(subDir)
 		for i in self.IRs:
+			# i is an ImpulseResponse object
 			i.export(dirName)
 
 	def exportSetList(self, index):
-		if self.extension == '.hxb':
-			self.setLists[int(index)-1].exportHLS(self.exportDir)
+		self.setLists[index-1].exportHLS(self.exportDir)
+
+	def exportSetLists(self, iList):
+		for i in iList:
+			self.setLists[i-1].exportHLS(self.exportDir)
 
 	def exportAllSetLists(self):
-		if self.extension == '.hxb':
-			for sl in self.setLists:
-				sl.exportHLS(self.exportDir)
+		for sl in self.setLists:
+			sl.exportHLS(self.exportDir)
 
-	def exportPreset(self, setListIndex, presetIndex, subDirPrefix="SetList"):
-		dirName = self.getExportPath("{}{}".format(subDirPrefix, setListIndex))
-		self.setLists[int(setListIndex)-1].exportPreset(int(presetIndex)-1, dirName)
+	def exportPreset(self, slIndex, pIndex, subDirPrefix="SetList"):
+		dirName = self.getExportPath("{}{}".format(subDirPrefix, slIndex))
+		self.setLists[slIndex-1].exportPreset(pIndex-1, dirName)
+
+	def exportPresets(self, slIndex, pList, subDirPrefix="SetList"):
+		dirName = self.getExportPath("{}{}".format(subDirPrefix, slIndex))
+		for i in pList:
+			self.setLists[slIndex-1].exportPreset(i-1, dirName)
 
 	def exportAllPresets(self, subDirPrefix="SetList"):
+		# should this export all set lists or just one set list?
 		for i in range(len(self.setLists)):
+			# i is numbered from 0
 			dirName = self.getExportPath("{}{}".format(subDirPrefix, i))
-			self.setLists[i].exportPresets(dirName)
+			self.setLists[i].exportAllPresets(dirName)
 
 	def printSummary(self):
 		#
@@ -152,20 +172,35 @@ class Backup:
 		pprint.pprint(self.globalSettings)
 
 	def printIR(self, index):
-		#!self.IRs[int(index)-1].info()
-		self.IRs[util.indicesToList(index)-1].info()
+		# index is an int numbered from 1
+		self.IRs[index-1].info()
+
+	def printIRs(self, iList, subDir="IRs"):
+		# iList is a list of indices numbered from 1
+		for i in iList:
+			self.IRs[i-1].info()
 
 	def printAllIRs(self):
 		for i in self.IRs:
 			i.info()
 
 	def printSetList(self, index):
-		self.setLists[int(index)-1].printInfo()
+		self.setLists[index-1].printInfo()
+
+	def printSetLists(self, iList):
+		for i in iList:
+			self.setLists[i-1].printInfo()
 
 	def printAllSetLists(self):
 		for sl in self.setLists:
 			sl.printInfo()
 
-	def printPreset(self, setListIndex, presetIndex):
-		#!self.setLists[int(setListIndex)].printPreset(int(presetIndex)-1)
-		self.setLists[int(setListIndex)].printPresets([x-1 for x in util.indicesToList(presetIndex)])
+	def printPreset(self, slIndex, pIndex):
+		self.setLists[slIndex].printPreset(pIndex-1)
+
+	def printPresets(self, slIndex, pList):
+		for i in pList:
+			self.setLists[slIndex-1].printPreset(i-1)
+
+	def printAllPresets(self):
+		self.printAllSetLists()
