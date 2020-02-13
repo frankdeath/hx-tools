@@ -61,40 +61,41 @@ optional arguments:
 ```
 
 ### Examples
+
+Print all the IR names:
 ```
 $ ./hx-tool.py --ir backup.hxb
 ```
-Print all the IR names.
 
+Print a subset of the IR names:
 ```
 $ ./hx-tool.py --ir -i 1-10,21 backup.hxb
 ```
-Print a subset of the IR names.
 
+Print all the preset names:
 ```
 $ ./hx-tool.py --preset
 ```
-Print all the preset names.
 
+Print a subset of the preset names:
 ```
 $ ./hx-tool.py --preset -p 42,100-109 setlist.hls
 ```
-Print a subset of the preset names.
 
+Export all IRs as .wav files:
 ```
 $ ./hx-tool.py --ir -x backup.hxb
 ```
-Export all IRs as .wav files.
 
+Export all set lists as .hls files:
 ```
 $ ./hx-tool.py --set-list -x backup.hxb
 ```
-Export all set lists as .hls files.
 
+Export all presets as .hlx files:
 ```
 $ ./hx-tool.py --preset -x setlist.hls
 ```
-Export all presets as .hlx files.
 
 ## Acknowledgements
 
