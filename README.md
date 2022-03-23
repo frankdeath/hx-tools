@@ -74,7 +74,7 @@ $ ./hx-tool.py --ir -i 1-10,21 backup.hxb
 
 Print all the preset names:
 ```
-$ ./hx-tool.py --preset
+$ ./hx-tool.py --preset backup.hxb
 ```
 
 Print a subset of the preset names:
